@@ -2,8 +2,8 @@ name: Telegram Joke Bot
 
 on:
   schedule:
-    - cron: '0 10 * * *'  # Утро 10:00 UTC
-    - cron: '0 19 * * *'  # Вечер 19:00 UTC
+    - cron: '0 10 * * *'  # Утро 07:00 UTC
+    - cron: '0 19 * * *'  # Вечер 18:00 UTC
   workflow_dispatch:  # Можно запустить вручную
 
 jobs:
