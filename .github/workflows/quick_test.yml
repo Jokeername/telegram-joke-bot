@@ -1,0 +1,29 @@
+name: Quick Test
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Test with output
+      run: |
+        echo "🔄 Starting test at $(date)"
+        echo "📞 Making request to Telegram API..."
+        
+        RESPONSE=$(curl -s -X POST "https://api.telegram.org/bot8219894042:AAG1PJrwW22WpIvaW9pr69rLkQ4wTpa40Qg/sendMessage" \
+          -d chat_id="1810598168" \
+          -d text="🚀 Тест из GitHub - должно прийти сразу!")
+        
+        echo "📨 Full response: $RESPONSE"
+        
+        # Проверяем статус
+        if echo "$RESPONSE" | grep -q '"ok":true'; then
+          echo "✅ SUCCESS: Message sent to Telegram!"
+        else
+          echo "❌ ERROR: Failed to send message"
+          echo "Details: $RESPONSE"
+        fi
+        
+        echo "🏁 Test completed at $(date)"
