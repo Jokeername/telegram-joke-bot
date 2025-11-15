@@ -1,0 +1,54 @@
+name: Bot Commands
+
+on:
+  workflow_dispatch:
+    inputs:
+      command:
+        description: 'Command to execute'
+        required: true
+        default: '/help'
+        type: choice
+        options:
+        - /start
+        - /help
+        - /joke
+        - /time
+        - /stats
+
+jobs:
+  execute-command:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Process command
+      run: |
+        COMMAND="${{ github.event.inputs.command }}"
+        BOT_TOKEN="8219894042:AAG1PJrwW22WpIvaW9pr69rLkQ4wTpa40Qg"
+        CHAT_ID="1810598168"
+        
+        echo "🔧 Executing command: $COMMAND"
+        
+        case $COMMAND in
+          "/start")
+            MESSAGE="🤖 Привет! Я бот с шутками!"
+            ;;
+          "/help")
+            MESSAGE="📋 Доступные команды: /start, /help, /joke, /time, /stats"
+            ;;
+          "/joke")
+            JOKES=("🎭 Шутка 1" "🎭 Шутка 2")
+            MESSAGE=${JOKES[$RANDOM % ${#JOKES[@]}]}
+            ;;
+          "/time")
+            MESSAGE="⏰ Утро: 10:00, Вечер: 21:00"
+            ;;
+          "/stats")
+            MESSAGE="📊 Статистика: 15 шуток, 12 анекдотов"
+            ;;
+          *)
+            MESSAGE="❌ Неизвестная команда"
+            ;;
+        esac
+        
+        curl -X POST "https://api.telegram.org/bot$BOT_TOKEN/sendMessage" \
+          -d chat_id="$CHAT_ID" \
+          -d text="$MESSAGE"
