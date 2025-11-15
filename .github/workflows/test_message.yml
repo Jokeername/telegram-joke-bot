@@ -1,0 +1,16 @@
+name: Test Message
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Send test message
+      run: |
+        echo "🔔 Sending test message..."
+        curl -X POST "https://api.telegram.org/bot8219894042:AAG1PJrwW22WpIvaW9pr69rLkQ4wTpa40Qg/sendMessage" \
+          -d chat_id="1810598168" \
+          -d text="🔔 ТЕСТ: Это сообщение видно?"
+        echo "✅ Test message sent!"
